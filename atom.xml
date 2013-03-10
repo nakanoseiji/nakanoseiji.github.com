@@ -4,7 +4,7 @@
   <title><![CDATA[なかのログ]]></title>
   <link href="http://nakanoseiji.github.com/atom.xml" rel="self"/>
   <link href="http://nakanoseiji.github.com/"/>
-  <updated>2013-03-10T16:55:53+09:00</updated>
+  <updated>2013-03-10T17:26:16+09:00</updated>
   <id>http://nakanoseiji.github.com/</id>
   <author>
     <name><![CDATA[nakanoseiji]]></name>
@@ -12,5 +12,34 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Hello, World!]]></title>
+    <link href="http://nakanoseiji.github.com/blog/2013/03/10/hello-world/"/>
+    <updated>2013-03-10T17:04:00+09:00</updated>
+    <id>http://nakanoseiji.github.com/blog/2013/03/10/hello-world</id>
+    <content type="html"><![CDATA[<h1>Octopress ではじめてみました</h1>
+
+<p>あんまりブログとかは継続できない人ですが、こういうところがピンときました。</p>
+
+<ul>
+<li>ローカルで書いておける</li>
+<li>好きなエディタで書ける</li>
+</ul>
+
+
+<p>というわけでこういう感じではじめてみました。</p>
+
+<ul>
+<li>ホスティングは github page</li>
+<li>エディタは emacs + markdown-mode</li>
+<li>バックアップとか下書きは bitbucket の private リポジトリへ git push &#8211;mirror</li>
+<li>表示チェックは rake generate したあとに、 python -m SimpleHTTPServer 8000 的な。</li>
+</ul>
+
+
+<p>ちょうどキャリア的に少し方向が変わったので、勉強したことをまとめていければいいかなぁと。</p>
+]]></content>
+  </entry>
   
 </feed>
