@@ -9,9 +9,8 @@
   <meta name="author" content="nakanoseiji">
 
   
-  <meta name="description" content="Octopress ではじめてみました あんまりブログとかは継続できない人ですが、こういうところがピンときました。 ローカルで書いておける
-好きなエディタで書ける というわけでこういう感じではじめてみました。 ホスティングは github page
-エディタは emacs + markdown- &hellip;">
+  <meta name="description" content="単語とかの整理 いくつか呼称がでてくるので、予めまとめてみます。訳間違ってるかも。 Node chef が設定したりする対象となるもの。とどのつまりサーバ
+Role を割り当てることができる Recipe そんまんま、レシピ Cookbook レシピ以外にも template やら &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +66,210 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/12/hello-chef-solo/">Chef-solo を試行錯誤中</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-12T06:34:00+09:00" pubdate data-updated="true">Mar 12<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>単語とかの整理</h1>
+
+<p>いくつか呼称がでてくるので、予めまとめてみます。訳間違ってるかも。</p>
+
+<ul>
+<li>Node
+
+<ul>
+<li>chef が設定したりする対象となるもの。とどのつまりサーバ</li>
+<li>Role を割り当てることができる</li>
+</ul>
+</li>
+<li>Recipe
+
+<ul>
+<li>そんまんま、レシピ</li>
+</ul>
+</li>
+<li>Cookbook
+
+<ul>
+<li>レシピ以外にも template やら Attribute を含んだもの</li>
+<li>概念的に1クックブックが、apache とか mysqld とかの1つに対応する模様
+
+<ul>
+<li> 最初、クックブックにたくさんレシピが入ってると勘違いして混乱してた</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Run-list
+
+<ul>
+<li>レシピとロールのリスト</li>
+<li>順番通りに実行される</li>
+</ul>
+</li>
+<li>Role
+
+<ul>
+<li>複数ノード間での共通パターン</li>
+<li>0個以上の Attribute と Run-list から構成される</li>
+</ul>
+</li>
+</ul>
+
+
+<p>このへんの関係が最初分からなくて混乱していた。今思えばそうでもなかった。</p>
+
+<h1>install</h1>
+
+<p>何はともあれインストール。CentOS5.9 の 64bit で試しましたが、どのディストリでも動くかなぁと。別途 git がインストールされていること前提。</p>
+
+<p>あとあと妙なことにならないように、念のため rbenv で環境を作ります。ものがものだけに root ユーザで。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># cd ~
+</span><span class='line'># git clone git://github.com/sstephenson/rbenv.git .rbenv
+</span><span class='line'># echo 'export PATH="$HOME/.rbenv/bin:$PATH"' &gt;&gt; .bashrc
+</span><span class='line'># echo 'eval "$(rbenv init -)"' &gt;&gt; .bashrc
+</span><span class='line'># mkdir -p ~/.rbenv/plugins
+</span><span class='line'># cd ~/.rbenv/plugins
+</span><span class='line'># git clone git://github.com/sstephenson/ruby-build.git
+</span><span class='line'># rbenv install  1.9.2-p320
+</span><span class='line'># cd
+</span><span class='line'># source .bashrc
+</span><span class='line'># rbenv install  1.9.2-p320
+</span><span class='line'># rbenv global  1.9.2-p320
+</span><span class='line'># rbenv rehash
+</span><span class='line'># rbenv which gem
+</span><span class='line'># gem install chef
+</span><span class='line'># gem install knife-solo</span></code></pre></td></tr></table></div></figure>
+
+
+<p>これで、<em>chef-solo</em>, <em>knife</em>, <em>knife solo</em> が利用できるようになりました。</p>
+
+<h1>init</h1>
+
+<p>以下のコマンドを実行して、hogehoge ディレクトリにディレクトリ一式と solo.rb を作成します。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># knife solo init ./hogehoge</span></code></pre></td></tr></table></div></figure>
+
+
+<p>実行後、hogehoge 内は以下のようになっているはず。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>drwxr-xr-x 2 root root 4096  2月 11 06:32 cookbooks
+</span><span class='line'>drwxr-xr-x 2 root root 4096  2月 11 06:32 data_bags
+</span><span class='line'>drwxr-xr-x 2 root root 4096  2月 11 06:32 nodes
+</span><span class='line'>drwxr-xr-x 2 root root 4096  2月 11 06:32 roles
+</span><span class='line'>drwxr-xr-x 2 root root 4096  2月 11 06:32 site-cookbooks
+</span><span class='line'>-rw-r--r-- 1 root root  221  2月 11 06:39 solo.rb</span></code></pre></td></tr></table></div></figure>
+
+
+<p>作成直後の solo.rb は、各パスが /tmp/chef あたりから始まっているので、作成したディレクトリを参照するように変更しつつ、data_bags 等は Chef Server で利用するよう(?)なので削除していいのかなぁと。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">file_cache_path</span>           <span class="s2">&quot;/tmp/chef-solo&quot;</span>
+</span><span class='line'><span class="n">cookbook_path</span>             <span class="o">[</span> <span class="ss">File</span><span class="p">:</span><span class="ss">:expand_path</span><span class="p">(</span><span class="s1">&#39;site-cookbooks&#39;</span><span class="p">),</span>
+</span><span class='line'>                            <span class="ss">File</span><span class="p">:</span><span class="ss">:expand_path</span><span class="p">(</span><span class="s1">&#39;cookbooks&#39;</span><span class="p">)</span> <span class="o">]</span>
+</span><span class='line'><span class="n">role_path</span>                 <span class="ss">File</span><span class="p">:</span><span class="ss">:expand_path</span><span class="p">(</span><span class="s1">&#39;roles&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>cookbook_path といいつつ、Cookbook を複数収容するディレクトリを指定するところが、ミスリードを誘いそう。</p>
+
+<h1>Cookbook を作る</h1>
+
+<p>Cookbook は以下のコマンドで作成。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># knife cookbook create mycookbook -o cookbooks/</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>cookbooks/ 直下に、複数の Cookbook を並べる感じの模様。</p>
+
+<p>が、site-cookbooks との棲み分けがよくわからない。どこからか入手したものを配置するの？</p>
+
+<h1>Role の定義</h1>
+
+<p>例によって JSON で。</p>
+
+<h1>Run-list の定義</h1>
+
+<p>こちらも JSON で。nodes 配下に配置。</p>
+
+<h1>実行</h1>
+
+<p>ノードに対応する .json ファイルと、solo.rb を指定しつつ chef-solo を実行。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">chef</span><span class="o">-</span><span class="n">solo</span> <span class="o">-</span><span class="n">c</span> <span class="o">.</span><span class="n">/solo</span><span class="o">.</span><span class="n">rb</span> <span class="o">-</span><span class="n">j</span> <span class="o">.</span><span class="n">/nodes</span><span class="o">/</span><span class="n">nodename</span><span class="o">.</span><span class="n">json</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>solo.rb をきちんと相対パスで指定しないと、/etc/chef/solo.rb (?) を探そうとして死んでた。</p>
+
+<p>カレントディレクトリに solo.rb がある場合でも、&#8221; -c solo.rb &#8221; という記述だと NG みたい。</p>
+
+<h1>もやっと</h1>
+
+<p>いざ実際のサーバ用の設定を作ってみると、どのくらいの粒度でレシピを作るべきかとか、配置はどうだとか、Role にするべきか Node にするべきかとか、そこら辺の答えた分からない感じ。</p>
+
+<p>もうちょっと経験をつまないと。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -135,6 +338,10 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/03/12/hello-chef-solo/">chef-solo を試行錯誤中</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/03/10/hello-world/">Hello, World!</a>
