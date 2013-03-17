@@ -4,7 +4,7 @@
   <title><![CDATA[なかのログ]]></title>
   <link href="http://nakanoseiji.github.com/atom.xml" rel="self"/>
   <link href="http://nakanoseiji.github.com/"/>
-  <updated>2013-03-13T02:14:29+09:00</updated>
+  <updated>2013-03-17T23:30:43+09:00</updated>
   <id>http://nakanoseiji.github.com/</id>
   <author>
     <name><![CDATA[nakanoseiji]]></name>
@@ -160,6 +160,8 @@
 <p>cookbooks/ 直下に、複数の Cookbook を並べる感じの模様。</p>
 
 <p>が、site-cookbooks との棲み分けがよくわからない。どこからか入手したものを配置するの？</p>
+
+<p>追記: site-cookbooks に自前のクックブックを配置し、cookbooks 配下には外部から取り込んだものを配置するのが推奨されているようです。</p>
 
 <h1>Role の定義</h1>
 
