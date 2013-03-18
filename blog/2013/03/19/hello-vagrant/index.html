@@ -5,13 +5,14 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Hello, World! - なかのログ</title>
+  <title>vagrant up でエラーが出た場合 - なかのログ</title>
   <meta name="author" content="nakanoseiji">
 
   
-  <meta name="description" content="Octopress ではじめてみました あんまりブログとかは継続できない人ですが、こういうところがピンときました。 ローカルで書いておける
-好きなエディタで書ける というわけでこういう感じではじめてみました。 ホスティングは github page
-エディタは emacs + markdown- &hellip;">
+  <meta name="description" content="こんなエラーが vagrant init をしようとして、こんなエラーが&#8230; 1
+2
+3
+There was an error executing the following command with VBoxManage: ["import", "/Users/nakanoseiji &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -20,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://nakanoseiji.github.com/blog/2013/03/10/hello-world">
+  <link rel="canonical" href="http://nakanoseiji.github.com/blog/2013/03/19/hello-vagrant">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="なかのログ" type="application/atom+xml">
@@ -70,7 +71,7 @@
   
   <header>
     
-      <h1 class="entry-title">Hello, World!</h1>
+      <h1 class="entry-title">Vagrant Up でエラーが出た場合</h1>
     
     
       <p class="meta">
@@ -86,34 +87,30 @@
   
 
 
-<time datetime="2013-03-10T17:04:00+09:00" pubdate data-updated="true">Mar 10<span>th</span>, 2013</time>
+<time datetime="2013-03-19T02:27:00+09:00" pubdate data-updated="true">Mar 19<span>th</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><h1>Octopress ではじめてみました</h1>
+<div class="entry-content"><h1>こんなエラーが</h1>
 
-<p>あんまりブログとかは継続できない人ですが、こういうところがピンときました。</p>
+<p>vagrant init をしようとして、こんなエラーが&#8230;</p>
 
-<ul>
-<li>ローカルで書いておける</li>
-<li>好きなエディタで書ける</li>
-</ul>
-
-
-<p>というわけでこういう感じではじめてみました。</p>
-
-<ul>
-<li>ホスティングは github page</li>
-<li>エディタは emacs + markdown-mode</li>
-<li>バックアップとか下書きは bitbucket の private リポジトリへ git push &#8211;mirror</li>
-<li>表示チェックは rake generate したあとに、 python -m SimpleHTTPServer 8000 的な。</li>
-</ul>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>There was an error executing the following command with VBoxManage:
+</span><span class='line'>
+</span><span class='line'>["import", "/Users/nakanoseiji/.vagrant.d/boxes/squeeze64/box.ovf"]</span></code></pre></td></tr></table></div></figure>
 
 
-<p>ちょうどキャリア的に少し方向が変わったので、勉強したことをまとめていければいいかなぁと。</p>
+<p>うちの手元の環境の場合では、以前 VirtualBox を単体で使った時に<em>デフォルトの仮想マシンフォルダー</em>設定を変更していたため起こった模様。</p>
+
+<p>VirtualBox を起動して、上記設定をリセットしてから再度 vagrant init するとちゃんと起動しました。</p>
+
+<p>どこかで指定できるのかもしれませんが。</p>
 </div>
 
 
@@ -136,7 +133,7 @@
   
 
 
-<time datetime="2013-03-10T17:04:00+09:00" pubdate data-updated="true">Mar 10<span>th</span>, 2013</time>
+<time datetime="2013-03-19T02:27:00+09:00" pubdate data-updated="true">Mar 19<span>th</span>, 2013</time>
       
 
 
@@ -144,7 +141,7 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://nakanoseiji.github.com/blog/2013/03/10/hello-world/" data-via="" data-counturl="http://nakanoseiji.github.com/blog/2013/03/10/hello-world/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://nakanoseiji.github.com/blog/2013/03/19/hello-vagrant/" data-via="" data-counturl="http://nakanoseiji.github.com/blog/2013/03/19/hello-vagrant/" >Tweet</a>
   
   
   
@@ -153,8 +150,8 @@
     
     <p class="meta">
       
+        <a class="basic-alignment left" href="/blog/2013/03/12/hello-chef-solo/" title="Previous Post: chef-solo を試行錯誤中">&laquo; chef-solo を試行錯誤中</a>
       
-        <a class="basic-alignment right" href="/blog/2013/03/12/hello-chef-solo/" title="Next Post: chef-solo を試行錯誤中">chef-solo を試行錯誤中 &raquo;</a>
       
     </p>
   </footer>

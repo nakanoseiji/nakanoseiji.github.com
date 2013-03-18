@@ -9,8 +9,10 @@
   <meta name="author" content="nakanoseiji">
 
   
-  <meta name="description" content="単語とかの整理 いくつか呼称がでてくるので、予めまとめてみます。訳間違ってるかも。 Node chef が設定したりする対象となるもの。とどのつまりサーバ
-Role を割り当てることができる Recipe そんまんま、レシピ Cookbook レシピ以外にも template やら &hellip;">
+  <meta name="description" content="こんなエラーが vagrant init をしようとして、こんなエラーが&#8230; 1
+2
+3
+There was an error executing the following command with VBoxManage: ["import", "/Users/nakanoseiji &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -66,6 +68,58 @@ Role を割り当てることができる Recipe そんまんま、レシピ Coo
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/19/hello-vagrant/">Vagrant Up でエラーが出た場合</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-19T02:27:00+09:00" pubdate data-updated="true">Mar 19<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>こんなエラーが</h1>
+
+<p>vagrant init をしようとして、こんなエラーが&#8230;</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>There was an error executing the following command with VBoxManage:
+</span><span class='line'>
+</span><span class='line'>["import", "/Users/nakanoseiji/.vagrant.d/boxes/squeeze64/box.ovf"]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>うちの手元の環境の場合では、以前 VirtualBox を単体で使った時に<em>デフォルトの仮想マシンフォルダー</em>設定を変更していたため起こった模様。</p>
+
+<p>VirtualBox を起動して、上記設定をリセットしてから再度 vagrant init するとちゃんと起動しました。</p>
+
+<p>どこかで指定できるのかもしれませんが。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -340,6 +394,10 @@ Role を割り当てることができる Recipe そんまんま、レシピ Coo
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/03/19/hello-vagrant/">vagrant up でエラーが出た場合</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/03/12/hello-chef-solo/">chef-solo を試行錯誤中</a>
