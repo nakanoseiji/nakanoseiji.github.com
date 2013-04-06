@@ -4,7 +4,7 @@
   <title><![CDATA[なかのログ]]></title>
   <link href="http://nakanoseiji.github.com/atom.xml" rel="self"/>
   <link href="http://nakanoseiji.github.com/"/>
-  <updated>2013-03-19T02:38:58+09:00</updated>
+  <updated>2013-04-07T02:32:37+09:00</updated>
   <id>http://nakanoseiji.github.com/</id>
   <author>
     <name><![CDATA[nakanoseiji]]></name>
@@ -12,6 +12,204 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Hello, Raspberry Pi!]]></title>
+    <link href="http://nakanoseiji.github.com/blog/2013/04/07/hello/"/>
+    <updated>2013-04-07T00:19:00+09:00</updated>
+    <id>http://nakanoseiji.github.com/blog/2013/04/07/hello</id>
+    <content type="html"><![CDATA[<h1>注文から到着まで</h1>
+
+<p>オンラインで注文とPayPalで決済して、ほぼ書いてあった納期通り到着しました。</p>
+
+<p>TypeB を10個と、そのクリアケースを10個。
+日本郵政の方が配達してくれて、受け取り時に関税が1,200円かかりました。</p>
+
+<h1>その他の買い物</h1>
+
+<p>たしかに本体だけで見るととても安いのですが、少なくともSDカードと電源となるUSBケーブルが必要です。</p>
+
+<p>とはいえ、それだけだと何もできないため、今回は以下のものを追加で Amazon でポチりました。</p>
+
+<ul>
+<li>LAN ケーブル</li>
+<li>MicroUSB ケーブル</li>
+<li>SD カード</li>
+<li>USB 充電器</li>
+</ul>
+
+
+<p>充電器はアンペア数を気をつけないといけません。</p>
+
+<h1>下準備</h1>
+
+<p>Raspberry Pi 用の OS イメージを、予め SD カードに書き込んでおく必要があります。</p>
+
+<p>GUI ツールもありますが、MacOSX の場合は dd コマンドでダウンロードしたイメージを書き込めます。
+今回は一度も使ったことがなかったので ArchLinux を選びました。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ diskutil unmountDisk disk1 # SD カードが disk1 の場合
+</span><span class='line'>$ sudo dd bs=1m if=/path/to/archlinux-hf-2013-02-11.img of=/dev/disk1</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>起動 〜 rootfs 拡張</h1>
+
+<p>SD カードを挿して、USB ケーブルに通電すればそれがスイッチ ON となるようです。</p>
+
+<p>ArchLinux の場合は GUI ではなく、CUI でのログインになります。OS イメージのダウンロードページにも書いてありますが、ArchLinux の場合は root/root でログインできます。</p>
+
+<p>この時点で sshd も起動していて PermitRootLogin も許可されているため、単に SSH でログイン出来ればいいような方は LAN ケーブルと SD カードが挿してあれば利用できます。</p>
+
+<p>しかし、ログインして df コマンドの結果を見ると SD カードが空き容量全部利用されてないことがわかります。
+なので fdisk コマンドをつかって拡張しましょう。対話モードで以下のような流れになります。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@alarmpi ~]# fdisk /dev/mmcblk0
+</span><span class='line'>Welcome to fdisk (util-linux 2.22.2).
+</span><span class='line'>
+</span><span class='line'>Changes will remain in memory only, until you decide to write them.
+</span><span class='line'>Be careful before using the write command.
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>Command (m for help): m
+</span><span class='line'>Command action
+</span><span class='line'>   a   toggle a bootable flag
+</span><span class='line'>   b   edit bsd disklabel
+</span><span class='line'>   c   toggle the dos compatibility flag
+</span><span class='line'>   d   delete a partition
+</span><span class='line'>   l   list known partition types
+</span><span class='line'>   m   print this menu
+</span><span class='line'>   n   add a new partition
+</span><span class='line'>   o   create a new empty DOS partition table
+</span><span class='line'>   p   print the partition table
+</span><span class='line'>   q   quit without saving changes
+</span><span class='line'>   s   create a new empty Sun disklabel
+</span><span class='line'>   t   change a partition's system id
+</span><span class='line'>   u   change display/entry units
+</span><span class='line'>   v   verify the partition table
+</span><span class='line'>   w   write table to disk and exit
+</span><span class='line'>   x   extra functionality (experts only)
+</span><span class='line'>
+</span><span class='line'>Command (m for help): d
+</span><span class='line'>Partition number (1-4): 2
+</span><span class='line'>Partition 2 is deleted
+</span><span class='line'>
+</span><span class='line'>Command (m for help): n
+</span><span class='line'>Partition type:
+</span><span class='line'>   p   primary (1 primary, 0 extended, 3 free)
+</span><span class='line'>   e   extended
+</span><span class='line'>Select (default p): p
+</span><span class='line'>Partition number (1-4, default 2): 2
+</span><span class='line'>First sector (186368-31268863, default 186368): 
+</span><span class='line'>Using default value 186368
+</span><span class='line'>Last sector, +sectors or +size{K,M,G} (186368-31268863, default 31268863): 
+</span><span class='line'>Using default value 31268863
+</span><span class='line'>Partition 2 of type Linux and of size 14.8 GiB is set
+</span><span class='line'>
+</span><span class='line'>Command (m for help): w
+</span><span class='line'>The partition table has been altered!
+</span><span class='line'>
+</span><span class='line'>Calling ioctl() to re-read partition table.
+</span><span class='line'>
+</span><span class='line'>WARNING: Re-reading the partition table failed with error 16: Device or resource busy.
+</span><span class='line'>The kernel still uses the old table. The new table will be used at
+</span><span class='line'>the next reboot or after you run partprobe(8) or kpartx(8)
+</span><span class='line'>Syncing disks.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ここまで実行したら、いちど再起動します。再起動後、以下を実行します。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@alarmpi ~]# resize2fs /dev/mmcblk0p2
+</span><span class='line'>resize2fs 1.42.6 (21-Sep-2012)
+</span><span class='line'>Filesystem at /dev/mmcblk0p2 is mounted on /; on-line resizing required
+</span><span class='line'>old_desc_blocks = 1, new_desc_blocks = 1
+</span><span class='line'>The filesystem on /dev/mmcblk0p2 is now 3885312 blocks long.
+</span><span class='line'>
+</span><span class='line'>[root@alarmpi ~]# df -h
+</span><span class='line'>Filesystem      Size  Used Avail Use% Mounted on
+</span><span class='line'>rootfs           15G  462M   14G   4% /
+</span><span class='line'>/dev/root        15G  462M   14G   4% /
+</span><span class='line'>devtmpfs         83M     0   83M   0% /dev
+</span><span class='line'>tmpfs           232M     0  232M   0% /dev/shm
+</span><span class='line'>tmpfs           232M  240K  231M   1% /run
+</span><span class='line'>tmpfs           232M     0  232M   0% /sys/fs/cgroup
+</span><span class='line'>tmpfs           232M     0  232M   0% /tmp
+</span><span class='line'>/dev/mmcblk0p1   90M   25M   66M  28% /boot</span></code></pre></td></tr></table></div></figure>
+
+
+<p>これで、16GB の SDカードを目一杯使ってくれるようになりました。</p>
+
+<p>どれくらいのことができるのか、これから試してみよう。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[vagrant up でエラーが出た場合]]></title>

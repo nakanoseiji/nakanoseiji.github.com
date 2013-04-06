@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>なかのログ</title>
+  <title>Hello, Raspberry Pi! - なかのログ</title>
   <meta name="author" content="nakanoseiji">
 
   
@@ -19,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://nakanoseiji.github.com">
+  <link rel="canonical" href="http://nakanoseiji.github.com/blog/2013/04/07/hello">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="なかのログ" type="application/atom+xml">
@@ -64,15 +64,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/04/07/hello/">Hello, Raspberry Pi!</a></h1>
+      <h1 class="entry-title">Hello, Raspberry Pi!</h1>
     
     
       <p class="meta">
@@ -95,7 +92,7 @@
   </header>
 
 
-  <div class="entry-content"><h1>注文から到着まで</h1>
+<div class="entry-content"><h1>注文から到着まで</h1>
 
 <p>オンラインで注文とPayPalで決済して、ほぼ書いてあった納期通り到着しました。</p>
 
@@ -286,74 +283,16 @@
 
 <p>どれくらいのことができるのか、これから試してみよう。</p>
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/19/hello-vagrant/">Vagrant Up でエラーが出た場合</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
   
 
+<span class="byline author vcard">Posted by <span class="fn">nakanoseiji</span></span>
 
-<time datetime="2013-03-19T02:27:00+09:00" pubdate data-updated="true">Mar 19<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>こんなエラーが</h1>
-
-<p>vagrant init をしようとして、こんなエラーが&#8230;</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>There was an error executing the following command with VBoxManage:
-</span><span class='line'>
-</span><span class='line'>["import", "/Users/nakanoseiji/.vagrant.d/boxes/squeeze64/box.ovf"]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>うちの手元の環境の場合では、以前 VirtualBox を単体で使った時に<em>デフォルトの仮想マシンフォルダー</em>設定を変更していたため起こった模様。</p>
-
-<p>VirtualBox を起動して、上記設定をリセットしてから再度 vagrant init するとちゃんと起動しました。</p>
-
-<p>どこかで指定できるのかもしれませんが。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/12/hello-chef-solo/">Chef-solo を試行錯誤中</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
@@ -365,253 +304,32 @@
   
 
 
-<time datetime="2013-03-12T06:34:00+09:00" pubdate data-updated="true">Mar 12<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>単語とかの整理</h1>
-
-<p>いくつか呼称がでてくるので、予めまとめてみます。訳間違ってるかも。</p>
-
-<ul>
-<li>Node
-
-<ul>
-<li>chef が設定したりする対象となるもの。とどのつまりサーバ</li>
-<li>Role を割り当てることができる</li>
-</ul>
-</li>
-<li>Recipe
-
-<ul>
-<li>そんまんま、レシピ</li>
-</ul>
-</li>
-<li>Cookbook
-
-<ul>
-<li>レシピ以外にも template やら Attribute を含んだもの</li>
-<li>概念的に1クックブックが、apache とか mysqld とかの1つに対応する模様
-
-<ul>
-<li> 最初、クックブックにたくさんレシピが入ってると勘違いして混乱してた</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Run-list
-
-<ul>
-<li>レシピとロールのリスト</li>
-<li>順番通りに実行される</li>
-</ul>
-</li>
-<li>Role
-
-<ul>
-<li>複数ノード間での共通パターン</li>
-<li>0個以上の Attribute と Run-list から構成される</li>
-</ul>
-</li>
-</ul>
-
-
-<p>このへんの関係が最初分からなくて混乱していた。今思えばそうでもなかった。</p>
-
-<h1>install</h1>
-
-<p>何はともあれインストール。CentOS5.9 の 64bit で試しましたが、どのディストリでも動くかなぁと。別途 git がインストールされていること前提。</p>
-
-<p>あとあと妙なことにならないように、念のため rbenv で環境を作ります。ものがものだけに root ユーザで。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># cd ~
-</span><span class='line'># git clone git://github.com/sstephenson/rbenv.git .rbenv
-</span><span class='line'># echo 'export PATH="$HOME/.rbenv/bin:$PATH"' &gt;&gt; .bashrc
-</span><span class='line'># echo 'eval "$(rbenv init -)"' &gt;&gt; .bashrc
-</span><span class='line'># mkdir -p ~/.rbenv/plugins
-</span><span class='line'># cd ~/.rbenv/plugins
-</span><span class='line'># git clone git://github.com/sstephenson/ruby-build.git
-</span><span class='line'># rbenv install  1.9.2-p320
-</span><span class='line'># cd
-</span><span class='line'># source .bashrc
-</span><span class='line'># rbenv install  1.9.2-p320
-</span><span class='line'># rbenv global  1.9.2-p320
-</span><span class='line'># rbenv rehash
-</span><span class='line'># rbenv which gem
-</span><span class='line'># gem install chef
-</span><span class='line'># gem install knife-solo</span></code></pre></td></tr></table></div></figure>
-
-
-<p>これで、<em>chef-solo</em>, <em>knife</em>, <em>knife solo</em> が利用できるようになりました。</p>
-
-<h1>init</h1>
-
-<p>以下のコマンドを実行して、hogehoge ディレクトリにディレクトリ一式と solo.rb を作成します。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># knife solo init ./hogehoge</span></code></pre></td></tr></table></div></figure>
-
-
-<p>実行後、hogehoge 内は以下のようになっているはず。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>drwxr-xr-x 2 root root 4096  2月 11 06:32 cookbooks
-</span><span class='line'>drwxr-xr-x 2 root root 4096  2月 11 06:32 data_bags
-</span><span class='line'>drwxr-xr-x 2 root root 4096  2月 11 06:32 nodes
-</span><span class='line'>drwxr-xr-x 2 root root 4096  2月 11 06:32 roles
-</span><span class='line'>drwxr-xr-x 2 root root 4096  2月 11 06:32 site-cookbooks
-</span><span class='line'>-rw-r--r-- 1 root root  221  2月 11 06:39 solo.rb</span></code></pre></td></tr></table></div></figure>
-
-
-<p>作成直後の solo.rb は、各パスが /tmp/chef あたりから始まっているので、作成したディレクトリを参照するように変更しつつ、data_bags 等は Chef Server で利用するよう(?)なので削除していいのかなぁと。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">file_cache_path</span>           <span class="s2">&quot;/tmp/chef-solo&quot;</span>
-</span><span class='line'><span class="n">cookbook_path</span>             <span class="o">[</span> <span class="ss">File</span><span class="p">:</span><span class="ss">:expand_path</span><span class="p">(</span><span class="s1">&#39;site-cookbooks&#39;</span><span class="p">),</span>
-</span><span class='line'>                            <span class="ss">File</span><span class="p">:</span><span class="ss">:expand_path</span><span class="p">(</span><span class="s1">&#39;cookbooks&#39;</span><span class="p">)</span> <span class="o">]</span>
-</span><span class='line'><span class="n">role_path</span>                 <span class="ss">File</span><span class="p">:</span><span class="ss">:expand_path</span><span class="p">(</span><span class="s1">&#39;roles&#39;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>cookbook_path といいつつ、Cookbook を複数収容するディレクトリを指定するところが、ミスリードを誘いそう。</p>
-
-<h1>Cookbook を作る</h1>
-
-<p>Cookbook は以下のコマンドで作成。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># knife cookbook create mycookbook -o cookbooks/</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>cookbooks/ 直下に、複数の Cookbook を並べる感じの模様。</p>
-
-<p>が、site-cookbooks との棲み分けがよくわからない。どこからか入手したものを配置するの？</p>
-
-<p>追記: site-cookbooks に自前のクックブックを配置し、cookbooks 配下には外部から取り込んだものを配置するのが推奨されているようです。</p>
-
-<h1>Role の定義</h1>
-
-<p>例によって JSON で。</p>
-
-<h1>Run-list の定義</h1>
-
-<p>こちらも JSON で。nodes 配下に配置。</p>
-
-<h1>実行</h1>
-
-<p>ノードに対応する .json ファイルと、solo.rb を指定しつつ chef-solo を実行。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">chef</span><span class="o">-</span><span class="n">solo</span> <span class="o">-</span><span class="n">c</span> <span class="o">.</span><span class="n">/solo</span><span class="o">.</span><span class="n">rb</span> <span class="o">-</span><span class="n">j</span> <span class="o">.</span><span class="n">/nodes</span><span class="o">/</span><span class="n">nodename</span><span class="o">.</span><span class="n">json</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>solo.rb をきちんと相対パスで指定しないと、/etc/chef/solo.rb (?) を探そうとして死んでた。</p>
-
-<p>カレントディレクトリに solo.rb がある場合でも、&#8221; -c solo.rb &#8221; という記述だと NG みたい。</p>
-
-<h1>もやっと</h1>
-
-<p>いざ実際のサーバ用の設定を作ってみると、どのくらいの粒度でレシピを作るべきかとか、配置はどうだとか、Role にするべきか Node にするべきかとか、そこら辺の答えた分からない感じ。</p>
-
-<p>もうちょっと経験をつまないと。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
+<time datetime="2013-04-07T00:19:00+09:00" pubdate data-updated="true">Apr 7<span>th</span>, 2013</time>
       
-  <header>
+
+
+    </p>
     
-      <h1 class="entry-title"><a href="/blog/2013/03/10/hello-world/">Hello, World!</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
+      <div class="sharing">
   
-
-
-<time datetime="2013-03-10T17:04:00+09:00" pubdate data-updated="true">Mar 10<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>Octopress ではじめてみました</h1>
-
-<p>あんまりブログとかは継続できない人ですが、こういうところがピンときました。</p>
-
-<ul>
-<li>ローカルで書いておける</li>
-<li>好きなエディタで書ける</li>
-</ul>
-
-
-<p>というわけでこういう感じではじめてみました。</p>
-
-<ul>
-<li>ホスティングは github page</li>
-<li>エディタは emacs + markdown-mode</li>
-<li>バックアップとか下書きは bitbucket の private リポジトリへ git push &#8211;mirror</li>
-<li>表示チェックは rake generate したあとに、 python -m SimpleHTTPServer 8000 的な。</li>
-</ul>
-
-
-<p>ちょうどキャリア的に少し方向が変わったので、勉強したことをまとめていければいいかなぁと。</p>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://nakanoseiji.github.com/blog/2013/04/07/hello/" data-via="" data-counturl="http://nakanoseiji.github.com/blog/2013/04/07/hello/" >Tweet</a>
+  
+  
+  
 </div>
-  
-  
 
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/03/19/hello-vagrant/" title="Previous Post: vagrant up でエラーが出た場合">&laquo; vagrant up でエラーが出た場合</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
 </div>
+
 <aside class="sidebar">
   
     <section>
@@ -643,6 +361,7 @@
 
   
 </aside>
+
 
     </div>
   </div>
