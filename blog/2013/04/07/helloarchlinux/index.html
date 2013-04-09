@@ -5,15 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Blog Archive - なかのログ</title>
+  <title>Hello, ArchLinux! - なかのログ</title>
   <meta name="author" content="nakanoseiji">
 
   
-  <meta name="description" content="Blog Archive 2013 Hello, ArchLinux!
-Apr 07 2013 Hello, Raspberry Pi!
-Apr 07 2013 vagrant up でエラーが出た場合
-Mar 19 2013 chef-solo を試行錯誤中
-Mar 12 2013 Hello &hellip;">
+  <meta name="description" content="ArchLinux を触り始めたメモ eth0 の設定ファイル RedHat 系では /etc/sysconfig/network-script/ にあるもの。
+arch だと /etc/network.d 下にあります。 ネットワークの再起動 arch だと init デーモンではなく &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -22,7 +19,7 @@ Mar 12 2013 Hello &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://nakanoseiji.github.com/blog/archives">
+  <link rel="canonical" href="http://nakanoseiji.github.com/blog/2013/04/07/helloarchlinux">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="なかのログ" type="application/atom+xml">
@@ -68,71 +65,103 @@ Mar 12 2013 Hello &hellip;">
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Blog Archive</h1>
+    
+      <h1 class="entry-title">Hello, ArchLinux!</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-07T22:54:00+09:00" pubdate data-updated="true">Apr 7<span>th</span>, 2013</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives">
 
 
+<div class="entry-content"><h1>ArchLinux を触り始めたメモ</h1>
 
-  
-  <h2>2013</h2>
+<h2>eth0 の設定ファイル</h2>
 
-<article>
-  
-<h1><a href="/blog/2013/04/07/helloarchlinux/">Hello, ArchLinux!</a></h1>
-<time datetime="2013-04-07T22:54:00+09:00" pubdate><span class='month'>Apr</span> <span class='day'>07</span> <span class='year'>2013</span></time>
+<p>RedHat 系では /etc/sysconfig/network-script/ にあるもの。
+arch だと /etc/network.d 下にあります。</p>
 
+<h2>ネットワークの再起動</h2>
 
-</article>
+<p>arch だと init デーモンではなく systemd が採用されていて</p>
 
-
-
-<article>
-  
-<h1><a href="/blog/2013/04/07/hello/">Hello, Raspberry Pi!</a></h1>
-<time datetime="2013-04-07T00:19:00+09:00" pubdate><span class='month'>Apr</span> <span class='day'>07</span> <span class='year'>2013</span></time>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>systemctl restart netcfg@ethernet-eth0</span></code></pre></td></tr></table></div></figure>
 
 
-</article>
+<p>で新しい設定ファイルの内容でネットワークが起動しました。</p>
+
+<p>ちなみに、systemctl &#8211;help でどんなことができるかひと通り見れるようです。</p>
+
+<h2>ホスト名の変更</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>hostnamectl set-hostname new_hostname</span></code></pre></td></tr></table></div></figure>
 
 
-
-<article>
-  
-<h1><a href="/blog/2013/03/19/hello-vagrant/">vagrant up でエラーが出た場合</a></h1>
-<time datetime="2013-03-19T02:27:00+09:00" pubdate><span class='month'>Mar</span> <span class='day'>19</span> <span class='year'>2013</span></time>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2013/03/12/hello-chef-solo/">chef-solo を試行錯誤中</a></h1>
-<time datetime="2013-03-12T06:34:00+09:00" pubdate><span class='month'>Mar</span> <span class='day'>12</span> <span class='year'>2013</span></time>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2013/03/10/hello-world/">Hello, World!</a></h1>
-<time datetime="2013-03-10T17:04:00+09:00" pubdate><span class='month'>Mar</span> <span class='day'>10</span> <span class='year'>2013</span></time>
-
-
-</article>
-
+<p>コマンドを実行すると、/etc/hostname ファイルも書き換わります。</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">nakanoseiji</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-07T22:54:00+09:00" pubdate data-updated="true">Apr 7<span>th</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://nakanoseiji.github.com/blog/2013/04/07/helloarchlinux/" data-via="" data-counturl="http://nakanoseiji.github.com/blog/2013/04/07/helloarchlinux/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/04/07/hello/" title="Previous Post: Hello, Raspberry Pi!">&laquo; Hello, Raspberry Pi!</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
 </div>

@@ -9,8 +9,8 @@
   <meta name="author" content="nakanoseiji">
 
   
-  <meta name="description" content="注文から到着まで オンラインで注文とPayPalで決済して、ほぼ書いてあった納期通り到着しました。 TypeB を10個と、そのクリアケースを10個。
-日本郵政の方が配達してくれて、受け取り時に関税が1,200円かかりました。 その他の買い物 たしかに本体だけで見るととても安いのですが、 &hellip;">
+  <meta name="description" content="ArchLinux を触り始めたメモ eth0 の設定ファイル RedHat 系では /etc/sysconfig/network-script/ にあるもの。
+arch だと /etc/network.d 下にあります。 ネットワークの再起動 arch だと init デーモンではなく &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -66,6 +66,67 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/07/helloarchlinux/">Hello, ArchLinux!</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-07T22:54:00+09:00" pubdate data-updated="true">Apr 7<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>ArchLinux を触り始めたメモ</h1>
+
+<h2>eth0 の設定ファイル</h2>
+
+<p>RedHat 系では /etc/sysconfig/network-script/ にあるもの。
+arch だと /etc/network.d 下にあります。</p>
+
+<h2>ネットワークの再起動</h2>
+
+<p>arch だと init デーモンではなく systemd が採用されていて</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>systemctl restart netcfg@ethernet-eth0</span></code></pre></td></tr></table></div></figure>
+
+
+<p>で新しい設定ファイルの内容でネットワークが起動しました。</p>
+
+<p>ちなみに、systemctl &#8211;help でどんなことができるかひと通り見れるようです。</p>
+
+<h2>ホスト名の変更</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>hostnamectl set-hostname new_hostname</span></code></pre></td></tr></table></div></figure>
+
+
+<p>コマンドを実行すると、/etc/hostname ファイルも書き換わります。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -617,6 +678,10 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/04/07/helloarchlinux/">Hello, ArchLinux!</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/04/07/hello/">Hello, Raspberry Pi!</a>

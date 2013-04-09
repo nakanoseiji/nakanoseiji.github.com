@@ -4,7 +4,7 @@
   <title><![CDATA[なかのログ]]></title>
   <link href="http://nakanoseiji.github.com/atom.xml" rel="self"/>
   <link href="http://nakanoseiji.github.com/"/>
-  <updated>2013-04-07T02:32:37+09:00</updated>
+  <updated>2013-04-10T00:12:39+09:00</updated>
   <id>http://nakanoseiji.github.com/</id>
   <author>
     <name><![CDATA[nakanoseiji]]></name>
@@ -12,6 +12,40 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Hello, ArchLinux!]]></title>
+    <link href="http://nakanoseiji.github.com/blog/2013/04/07/helloarchlinux/"/>
+    <updated>2013-04-07T22:54:00+09:00</updated>
+    <id>http://nakanoseiji.github.com/blog/2013/04/07/helloarchlinux</id>
+    <content type="html"><![CDATA[<h1>ArchLinux を触り始めたメモ</h1>
+
+<h2>eth0 の設定ファイル</h2>
+
+<p>RedHat 系では /etc/sysconfig/network-script/ にあるもの。
+arch だと /etc/network.d 下にあります。</p>
+
+<h2>ネットワークの再起動</h2>
+
+<p>arch だと init デーモンではなく systemd が採用されていて</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>systemctl restart netcfg@ethernet-eth0</span></code></pre></td></tr></table></div></figure>
+
+
+<p>で新しい設定ファイルの内容でネットワークが起動しました。</p>
+
+<p>ちなみに、systemctl &#8211;help でどんなことができるかひと通り見れるようです。</p>
+
+<h2>ホスト名の変更</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>hostnamectl set-hostname new_hostname</span></code></pre></td></tr></table></div></figure>
+
+
+<p>コマンドを実行すると、/etc/hostname ファイルも書き換わります。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Hello, Raspberry Pi!]]></title>
