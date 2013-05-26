@@ -169,7 +169,7 @@ Subscriber は Publisher から配信されるデータのうち、自分が欲�
 </pre></td><td class='code'><pre><code class=''><span class='line'>PSUBSCRIBE hoge*</span></code></pre></td></tr></table></div></figure>
 
 
-<p>としていれば</p>
+<p>としていれば、以下の配信内容のどちらも受信することができます。</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -178,8 +178,6 @@ Subscriber は Publisher から配信されるデータのうち、自分が欲�
 
 
 <p>`</p>
-
-<p>された配信内容のどちらも受信することができます。</p>
 
 <p>実際には公式のドキュメントにあるように、ドットで名前空間的に区切るような運用が好ましいと思います。</p>
 
@@ -272,6 +270,8 @@ Subscriber は Publisher から配信されるデータのうち、自分が欲�
 <p>当たり前ですが、受信ができたのは同じ slave1 に接続している端末でした。</p>
 
 <h2>というわけで</h2>
+
+<p>すでにストレージではない気もしますが、面白いと思います。</p>
 
 <p>どういう用途に使おうか悩ましいところ。</p>
 </div>
