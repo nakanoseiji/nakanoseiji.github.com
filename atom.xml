@@ -4,7 +4,7 @@
   <title><![CDATA[なかのログ]]></title>
   <link href="http://nakanoseiji.github.com/atom.xml" rel="self"/>
   <link href="http://nakanoseiji.github.com/"/>
-  <updated>2013-04-10T00:12:39+09:00</updated>
+  <updated>2013-05-27T01:04:35+09:00</updated>
   <id>http://nakanoseiji.github.com/</id>
   <author>
     <name><![CDATA[nakanoseiji]]></name>
@@ -12,6 +12,193 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Redis の Pub/Sub を使う]]></title>
+    <link href="http://nakanoseiji.github.com/blog/2013/05/26/redis-pubsub/"/>
+    <updated>2013-05-26T18:10:00+09:00</updated>
+    <id>http://nakanoseiji.github.com/blog/2013/05/26/redis-pubsub</id>
+    <content type="html"><![CDATA[<h1>なにそれ？</h1>
+
+<p>Publisher(Sender) は誰が購読しているかを意識することなくデータを送信し、
+Subscriber は Publisher から配信されるデータのうち、自分が欲しいものだけを受信できる機能です。</p>
+
+<p>何に使えるのか？を考えるためにも、ちょっと触ってみます。</p>
+
+<h1>構成</h1>
+
+<p>とりあえず以下のような構成にしてみます。機材は Raspberry Pi で、OS に Fedora18 をインストールしています。</p>
+
+<ul>
+<li>master * 1</li>
+<li>slave * 2 (slave1, slave2)</li>
+</ul>
+
+
+<h1>触ってみる</h1>
+
+<p>公式のドキュメントを見てもいまいちしっくりこないので、まずは使ってみます。
+まずは master, slave それぞれに telnet で接続します。</p>
+
+<p>次に、slave1 で以下を打ち込んで、ch_1 を受信できるようにします。ちなみにチャンネルはスペースで区切って複数指定出来ます。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SUBSCRIBE ch_1</span></code></pre></td></tr></table></div></figure>
+
+
+<p>一方、slave_2 では以下のようにして、別のチャンネルを受信します。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SUBSCRIBE ch_2</span></code></pre></td></tr></table></div></figure>
+
+
+<p>次に、master で以下を実行してみます。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>PUBLISH ch_1 Hello,ch_1</span></code></pre></td></tr></table></div></figure>
+
+
+<p>すると、slave1 につないだターミナルで以下のデータが受信されます。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>*3
+</span><span class='line'>$7
+</span><span class='line'>message
+</span><span class='line'>$4
+</span><span class='line'>ch_1
+</span><span class='line'>$10
+</span><span class='line'>Hello,ch_1</span></code></pre></td></tr></table></div></figure>
+
+
+<p>次に master で以下を実行します。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>PUBLISH ch_2 Hello,ch_2</span></code></pre></td></tr></table></div></figure>
+
+
+<p>slave2 に接続した端末にデータが流れて来ました。slave1 のほうには何も出ません。</p>
+
+<p>また、受信したいチャンネルをワイルドカードで指定できる PSUBSCRIBE があります。</p>
+
+<p>受信側が</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>PSUBSCRIBE hoge*</span></code></pre></td></tr></table></div></figure>
+
+
+<p>としていれば</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>PUBLISH hogefuga 111111
+</span><span class='line'>PUBLISH hogepiyo 222222</span></code></pre></td></tr></table></div></figure>
+
+
+<p>`</p>
+
+<p>された配信内容のどちらも受信することができます。</p>
+
+<p>実際には公式のドキュメントにあるように、ドットで名前空間的に区切るような運用が好ましいと思います。</p>
+
+<p>なお、</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>PSUBSCRIBE *</span></code></pre></td></tr></table></div></figure>
+
+
+<p>とすれば PUBLISH されたすべてを受信できます。</p>
+
+<h1>検証</h1>
+
+<p>実際にどういう構成をとりえるのか、ちょっと検証してみる。</p>
+
+<h2>master で Subscribe はできるのか？</h2>
+
+<p>master で 以下を実行してみる</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SUBSCRIBE ch_master
+</span><span class='line'>PUBLISH ch_master Hello,Master</span></code></pre></td></tr></table></div></figure>
+
+
+<p>すると、以下の様なメッセージが帰って来ました。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-ERR only (P)SUBSCRIBE / (P)UNSUBSCRIBE / QUIT allowed in this context</span></code></pre></td></tr></table></div></figure>
+
+
+<p>どうやら SUBSCRIBE している 接続 ではそれ専用になるようです。</p>
+
+<p>もう一つ telnet を起動して、master に接続してみて以下を実行します。もともと接続している方は SUBSCRIBE したままです。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>PUBLISH ch_master Hello,Master</span></code></pre></td></tr></table></div></figure>
+
+
+<p>すると予想通り master で SUBSCRIBE した接続に以下のデータが返って来ました。
+つまり、SUBSCRIBER として接続したとき、その接続は受信専用ということになります。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>*3
+</span><span class='line'>$7
+</span><span class='line'>message
+</span><span class='line'>$9
+</span><span class='line'>ch_master
+</span><span class='line'>$12
+</span><span class='line'>Hello,Master</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>過去の配信内容を SUBSCRIBE できる？</h2>
+
+<p>当たり前に考えてできないはずです。が、念のため確認してみます。</p>
+
+<p>slave1 に別の telnet を起動して接続し、ch_1 を SUBSCRIBE してみます。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SUBSCRIBE ch_1</span></code></pre></td></tr></table></div></figure>
+
+
+<p>当然ながら、過去に PUBLISH したデータは流れて来ません。</p>
+
+<p>ついでに master でたくさん PUBLISH で発行した後に、保存させてみます。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SAVE</span></code></pre></td></tr></table></div></figure>
+
+
+<p>データファイルのサイズは変わりませんでした。保存する必要はないので当然ですね。</p>
+
+<h2>受信可能チャンネル数</h2>
+
+<p>ためしに ch1 から ch1000 までの 1000チャンネルを SUBSCRIBE してみます。</p>
+
+<p>ちゃんと受信できました。</p>
+
+<h2>slave から配信できるか</h2>
+
+<p>master および slave1,2 にそれぞれ telnet 接続して <em>SUBSCRIBE hoge</em> しておきます。
+それと別に slave1 に接続した端末から、hoge チャンネルに PUBLISH します。</p>
+
+<p>当たり前ですが、受信ができたのは同じ slave1 に接続している端末でした。</p>
+
+<h2>というわけで</h2>
+
+<p>どういう用途に使おうか悩ましいところ。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Hello, ArchLinux!]]></title>
