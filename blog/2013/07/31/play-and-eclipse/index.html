@@ -1,0 +1,299 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Play2.1 と Eclipse を Mac で - なかのログ</title>
+  <meta name="author" content="nakanoseiji">
+
+  
+  <meta name="description" content="久しぶりに環境を整えてみたので忘れないようにメモ。 それぞれのサイトから以下を持ってくる eclipse-standard-kepler-R-macosx-cocoa-x86_64.tar.gz
+pleiades_1.4.0.zip
+play-2.1.2.zip Eclipse 適当に解凍する。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://nakanoseiji.github.com/blog/2013/07/31/play-and-eclipse">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="なかのログ" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">なかのログ</a></h1>
+  
+    <h2>ほとんどメモ</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:nakanoseiji.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Play2.1 と Eclipse を Mac で</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-31T03:39:00+09:00" pubdate data-updated="true">Jul 31<span>st</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>久しぶりに環境を整えてみたので忘れないようにメモ。</p>
+
+<p>それぞれのサイトから以下を持ってくる</p>
+
+<ul>
+<li>eclipse-standard-kepler-R-macosx-cocoa-x86_64.tar.gz</li>
+<li>pleiades_1.4.0.zip</li>
+<li>play-2.1.2.zip</li>
+</ul>
+
+
+<h2>Eclipse</h2>
+
+<p>適当に解凍する。まだ起動はしない。
+のちのち、以下のプラグインをインストール。</p>
+
+<ul>
+<li>Java implementation of Git</li>
+<li>m2e</li>
+<li>Scala IDE</li>
+</ul>
+
+
+<h2>Pleiades</h2>
+
+<p>解凍し、plugins と features の中身をそれぞれ eclipse の対応するディレクトリの中に配置。</p>
+
+<p>その後、eclipse を回答した先にある</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/path/to/eclipse/Eclipse.app/Contents/MacOS/eclipse.ini </span></code></pre></td></tr></table></div></figure>
+
+
+<p>に、</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-javaagent:../../../plugins/jp.sourceforge.mergedoc.pleiades/pleiades.jar</span></code></pre></td></tr></table></div></figure>
+
+
+<p>を追記。</p>
+
+<p>一度起動する。
+多分プラグインを追加したりした場合、ini ファイルと同じ場所にある eclipse を</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>eclipse -clean
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>で起動するものだと思われる。</p>
+
+<h2>Play</h2>
+
+<p>解凍して任意の場所に配置して、中にある play にパスが通った状態にする(お好み)。</p>
+
+<h2>プロジェクト作成</h2>
+
+<p>適当なディレクトリで、play コマンドを実行。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>play new project_name
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>project_name ディレクトリが生成し、その中にファイルが一式揃った状態になる。</p>
+
+<p>ちゃんとバージョン管理する。別にあとからでもよいですが。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">cd </span>project_name
+</span><span class='line'>git init
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>作成したプロジェクトを Eclipse のプロジェクトにする。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>play eclipse
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Eclipse で開く</h2>
+
+<p>ファイルメニューのインポートから、&#8221;一般&#8221; の中にある &#8220;既存プロジェクトをワークスペースへ&#8221; を選択し、play で作成したプロジェクトのディレクトリを選択する。</p>
+
+<p>おわり。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">nakanoseiji</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-31T03:39:00+09:00" pubdate data-updated="true">Jul 31<span>st</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://nakanoseiji.github.com/blog/2013/07/31/play-and-eclipse/" data-via="" data-counturl="http://nakanoseiji.github.com/blog/2013/07/31/play-and-eclipse/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/05/26/redis-pubsub/" title="Previous Post: Redis の Pub/Sub を使う">&laquo; Redis の Pub/Sub を使う</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/31/play-and-eclipse/">Play2.1 と Eclipse を Mac で</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/26/redis-pubsub/">Redis の Pub/Sub を使う</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/04/07/helloarchlinux/">Hello, ArchLinux!</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/04/07/hello/">Hello, Raspberry Pi!</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/19/hello-vagrant/">vagrant up でエラーが出た場合</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - nakanoseiji -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -4,7 +4,7 @@
   <title><![CDATA[なかのログ]]></title>
   <link href="http://nakanoseiji.github.com/atom.xml" rel="self"/>
   <link href="http://nakanoseiji.github.com/"/>
-  <updated>2013-05-27T01:15:26+09:00</updated>
+  <updated>2013-07-31T03:55:51+09:00</updated>
   <id>http://nakanoseiji.github.com/</id>
   <author>
     <name><![CDATA[nakanoseiji]]></name>
@@ -12,6 +12,101 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Play2.1 と Eclipse を Mac で]]></title>
+    <link href="http://nakanoseiji.github.com/blog/2013/07/31/play-and-eclipse/"/>
+    <updated>2013-07-31T03:39:00+09:00</updated>
+    <id>http://nakanoseiji.github.com/blog/2013/07/31/play-and-eclipse</id>
+    <content type="html"><![CDATA[<p>久しぶりに環境を整えてみたので忘れないようにメモ。</p>
+
+<p>それぞれのサイトから以下を持ってくる</p>
+
+<ul>
+<li>eclipse-standard-kepler-R-macosx-cocoa-x86_64.tar.gz</li>
+<li>pleiades_1.4.0.zip</li>
+<li>play-2.1.2.zip</li>
+</ul>
+
+
+<h2>Eclipse</h2>
+
+<p>適当に解凍する。まだ起動はしない。
+のちのち、以下のプラグインをインストール。</p>
+
+<ul>
+<li>Java implementation of Git</li>
+<li>m2e</li>
+<li>Scala IDE</li>
+</ul>
+
+
+<h2>Pleiades</h2>
+
+<p>解凍し、plugins と features の中身をそれぞれ eclipse の対応するディレクトリの中に配置。</p>
+
+<p>その後、eclipse を回答した先にある</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/path/to/eclipse/Eclipse.app/Contents/MacOS/eclipse.ini </span></code></pre></td></tr></table></div></figure>
+
+
+<p>に、</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-javaagent:../../../plugins/jp.sourceforge.mergedoc.pleiades/pleiades.jar</span></code></pre></td></tr></table></div></figure>
+
+
+<p>を追記。</p>
+
+<p>一度起動する。
+多分プラグインを追加したりした場合、ini ファイルと同じ場所にある eclipse を</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>eclipse -clean
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>で起動するものだと思われる。</p>
+
+<h2>Play</h2>
+
+<p>解凍して任意の場所に配置して、中にある play にパスが通った状態にする(お好み)。</p>
+
+<h2>プロジェクト作成</h2>
+
+<p>適当なディレクトリで、play コマンドを実行。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>play new project_name
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>project_name ディレクトリが生成し、その中にファイルが一式揃った状態になる。</p>
+
+<p>ちゃんとバージョン管理する。別にあとからでもよいですが。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">cd </span>project_name
+</span><span class='line'>git init
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>作成したプロジェクトを Eclipse のプロジェクトにする。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>play eclipse
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Eclipse で開く</h2>
+
+<p>ファイルメニューのインポートから、&#8221;一般&#8221; の中にある &#8220;既存プロジェクトをワークスペースへ&#8221; を選択し、play で作成したプロジェクトのディレクトリを選択する。</p>
+
+<p>おわり。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Redis の Pub/Sub を使う]]></title>
